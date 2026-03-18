@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 def index_data(documents: List[dict]):
     # indexes the documents in elastic search using bulk api
-    es = get_elasticsearch_client(max_try=2)
+    es = get_elasticsearch_client(max_try=5)
     if es is None:
         return
     _ = _create_index(es)
@@ -34,7 +34,8 @@ def _insert_documents(es: Elasticsearch, documents: List[dict]) -> dict:
     return helpers.bulk(es, actions)
 
 if __name__ == "__main__":
-    with open("././data/apod.json") as f:
+    with open("../../data/apod.json") as f:
         documents = json.load(f)
     index_data(documents=documents)
      
+

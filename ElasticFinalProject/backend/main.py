@@ -17,7 +17,7 @@ app.add_middleware(  # allows frontend to access backend
 
 # defining endpoint
 
-@app.get("/api/v1/search/")
+@app.get("/api/v1/regular_search/")
 async def search(search_query: str, skip: int = 0, limit: int = 10) -> dict:
     # a simple search query
     es = get_elasticsearch_client()
@@ -38,5 +38,5 @@ async def search(search_query: str, skip: int = 0, limit: int = 10) -> dict:
     hits = response["hits"]["hits"]
     return {"hits": hits}
 
-        
+
    
