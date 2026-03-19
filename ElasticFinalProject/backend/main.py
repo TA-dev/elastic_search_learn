@@ -21,6 +21,7 @@ app.add_middleware(  # allows frontend to access backend
 
 @app.get("/api/v1/regular_search")
 async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | None = None) -> dict:
+    global INDEX_NAME
     # a simple search query
     
     # compound query so we can add filters
@@ -73,6 +74,7 @@ def calculate_max_pages(total_hits, limit):
 # aggregations for how many docs per year
 @app.get("/api/v1/get_docs_per_year_count")
 async def get_docs_per_year_count(search_query: str) -> dict:
+    global INDEX_NAME
     try:
 
         query = {
