@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from  fastapi.responses import HTMLResponse
 
 app = FastAPI()
+es = get_elasticsearch_client(max_try=3, sleep_time=0) # to prevent pausing the program
 
 app.add_middleware(  # allows frontend to access backend
     CORSMiddleware,
@@ -18,10 +19,10 @@ app.add_middleware(  # allows frontend to access backend
 
 # defining endpoint
 
-@app.get("/api/v1/regular_search/")
+@app.get("/api/v1/regular_search")
 async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | None = None) -> dict:
     # a simple search query
-    es = get_elasticsearch_client(max_try=1, sleep_time=0) # to prevent pausing the program
+    
     # compound query so we can add filters
     query = {
         "bool" : {
@@ -49,10 +50,11 @@ async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | 
     response = es.search(
         index=INDEX_NAME, 
         body={
-            "query": query
+            "query": query,
             "from": skip,
             "size": limit
-        }, 
+
+        },
         filter_path=["hits.hits._source", "hits.hits._score", "hits.total"]
     )
     total_hits = get_total_hits(response)
@@ -69,10 +71,9 @@ def calculate_max_pages(total_hits, limit):
 
 
 # aggregations for how many docs per year
-@app.get("/api/v1/get_docs_per_year_count/")
+@app.get("/api/v1/get_docs_per_year_count")
 async def get_docs_per_year_count(search_query: str) -> dict:
     try:
-        es = get_elasticsearch_client(max_try=1, sleep_time=0) # to prevent pausing the program
 
         query = {
             "bool" : {
