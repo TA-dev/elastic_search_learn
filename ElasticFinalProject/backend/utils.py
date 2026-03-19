@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch
 import time
 from pprint import pprint
 
-def get_elasticsearch_client(max_try=5, sleep_time=1) -> Elasticsearch:
+def get_elasticsearch_client(max_try=2, sleep_time=0) -> Elasticsearch:
     """
     Tries to initialize an Elasticsearch client up to max_try times.
     Returns Elasticsearch client if successful, None otherwise.
@@ -15,8 +15,8 @@ def get_elasticsearch_client(max_try=5, sleep_time=1) -> Elasticsearch:
             # Check connection
             if es.ping():
                 print("Elasticsearch client initialized successfully")
-                info = es.info()
-                pprint(f"Cluster info:\n {info}")
+                # info = es.info()
+                # pprint(f"Cluster info:\n {info}")
                 return es
             else:
                 print(f"Ping failed on attempt {attempt+1}/{max_try}")
