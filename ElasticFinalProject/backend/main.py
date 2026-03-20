@@ -21,9 +21,7 @@ app.add_middleware(  # allows frontend to access backend
 
 @app.get("/api/v1/regular_search")
 async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | None = None) -> dict:
-    global INDEX_NAME
-    # a simple search query
-    
+    global INDEX_NAME_N_GRAM
     # compound query so we can add filters
     query = {
         "bool" : {
@@ -49,7 +47,7 @@ async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | 
         }
 
     response = es.search(
-        index=INDEX_NAME, 
+        index=INDEX_NAME_N_GRAM, 
         body={
             "query": query,
             "from": skip,
@@ -71,10 +69,60 @@ def calculate_max_pages(total_hits, limit):
     return math.ceil(total_hits / limit)
 
 
+
+# defining semantic search endpoint
+@app.get("/api/v1/semantic_search")
+async def semantic_search(search_query: str, skip: int = 0, limit: int = 10, year: str | None = None) -> dict:
+    global INDEX_NAME_EMBEDDINGS, model
+    embedded_query = model.encode(search_query)
+    query = {
+        "bool" : {
+            "must": [
+                {
+                    "knn": {
+                        "field": "embedding",
+                        "query_vector": embedded_query,
+                        "k": 1e4  # # higher than total docs (3333), so effectively retrieve all possible matches (within ES limits)
+                    }
+                }
+            ]
+        }
+    }
+    if year:
+        query["bool"]["filter"] = {
+            "range": {
+                "date": {
+                    "gte": f"{year}-01-01",
+                    "lte": f"{year}-12-31" ,
+                    "format": "yyyy-MM-dd"
+                }
+            }
+        }
+
+    response = es.search(
+    index=INDEX_NAME_EMBEDDINGS, 
+    body={
+        "query": query,
+        "from": skip,
+        "size": limit
+
+    },
+    filter_path=["hits.hits._source", "hits.hits._score", "hits.total"]
+)
+        
+
+    total_hits = get_total_hits(response)
+    max_pages = calculate_max_pages(total_hits, limit)
+
+    hits = response["hits"].get("hits", [])  # in case nothing matches the search, so we dont get errors
+    return {"hits": hits, "total": total_hits, "max_pages": max_pages}
+
+    
+
 # aggregations for how many docs per year
 @app.get("/api/v1/get_docs_per_year_count")
 async def get_docs_per_year_count(search_query: str) -> dict:
-    global INDEX_NAME
+    global INDEX_NAME_DEFAULT  # we use any index since the documents are the same
     try:
 
         query = {
@@ -91,7 +139,7 @@ async def get_docs_per_year_count(search_query: str) -> dict:
         }
 
         response = es.search(
-            index=INDEX_NAME, 
+            index=INDEX_NAME_DEFAULT, 
             body={
                 "query": query,
                 "aggs": {
@@ -120,5 +168,3 @@ def extract_docs_per_year(response):
     for bucket in response["aggregations"]["docs_per_year"]["buckets"]:
         docs_per_year[bucket["key_as_string"]] = bucket["doc_count"]
     return docs_per_year
-
-   

@@ -9,14 +9,6 @@ from utils import *
 from config import *
 from tqdm import tqdm
 
-use_n_gram_tokenizer = True
-INDEX_NAME = INDEX_NAME_N_GRAM if use_n_gram_tokenizer else INDEX_NAME_DEFAULT
-print(INDEX_NAME)
-tokenizer_name = 'standard' if not use_n_gram_tokenizer else 'n_gram_tokenizer'
-
-
-
-
 def index_data(documents: List[dict]):
     global INDEX_NAME, use_n_gram_tokenizer
     # indexes the documents in elastic search using bulk api
@@ -27,8 +19,16 @@ def index_data(documents: List[dict]):
     _ = _insert_documents(es, documents)
 
     pprint(f"Indexed {len(documents)} documents into Elasticsearch index {INDEX_NAME}")
-   
-def _create_index(es: Elasticsearch) -> Elasticsearch:    
+
+def _create_index(es: Elasticsearch) -> Elasticsearch:
+    if use_embeddings:
+        return _create_index_embeddings(es)
+    else:
+        return _create_index_no_embedding(es)
+
+
+# function to create index (no embeddings)
+def _create_index_no_embedding(es: Elasticsearch) -> Elasticsearch:    
     global INDEX_NAME, tokenizer_name, use_n_gram_tokenizer
     
     tokenizer = {
@@ -60,10 +60,25 @@ def _create_index(es: Elasticsearch) -> Elasticsearch:
         }
     })
 
+def _create_index_embeddings(es: Elasticsearch) -> Elasticsearch:
+    global INDEX_NAME, tokenizer_name, use_n_gram_tokenizer
+    es.indices.delete(index=INDEX_NAME, ignore_unavailable=True)
+
+    return es.indices.create(index=INDEX_NAME, mappings={  # manual mapping bc elasticsearch can't infer dense vectors automatically
+        "properties": {
+            "embedding": {
+                "type": "dense_vector",
+            }  
+        }
+    })
+
 def _insert_documents(es: Elasticsearch, documents: List[dict]) -> dict:
-    global INDEX_NAME
+    global INDEX_NAME, model
     actions = []
     for doc in tqdm(documents, total=len(documents)):
+        # if we use embedding, add embedding field
+        if use_embeddings:
+            doc['embedding'] = model.encode(doc['explanation'])
         actions.append({
             "_index": INDEX_NAME,
             "_source": doc
