@@ -9,16 +9,54 @@ from utils import *
 from config import *
 from tqdm import tqdm
 
+PIPELINE_ID = "apod_pipeline"
+
 def index_data(documents: List[dict]):
-    global INDEX_NAME, use_n_gram_tokenizer
-    # indexes the documents in elastic search using bulk api
+    global INDEX_NAME
+    
+
     es = get_elasticsearch_client(max_try=5)
     if es is None:
         return
-    _ = _create_index(es)
-    _ = _insert_documents(es, documents)
+
+    _create_pipeline(es)
+    _create_index(es)
+    _insert_documents(es, documents)
 
     pprint(f"Indexed {len(documents)} documents into Elasticsearch index {INDEX_NAME}")
+
+
+
+# PIPELINE CREATION
+def _create_pipeline(es: Elasticsearch):
+    global use_n_gram_tokenizer, use_raw
+
+    processors = []
+
+    # --- RAW HTML STRIP ---
+    if use_raw:
+        processors.append({
+            "html_strip": {
+                "field": "explanation",
+                "target_field": "explanation_clean"
+            }
+        })
+
+    # --- OPTIONAL NORMALIZATION ---
+    if use_n_gram_tokenizer:
+        processors.append({
+            "lowercase": {
+                "field": "explanation"
+            }
+        })
+
+    return es.ingest.put_pipeline(
+        id=PIPELINE_ID,
+        body={
+            "description": "apod pipeline (raw + tokenizer prep)",
+            "processors": processors
+        }
+    )
 
 def _create_index(es: Elasticsearch) -> Elasticsearch:
     if use_embeddings:
@@ -73,7 +111,7 @@ def _create_index_embeddings(es: Elasticsearch) -> Elasticsearch:
     })
 
 def _insert_documents(es: Elasticsearch, documents: List[dict]) -> dict:
-    global INDEX_NAME, model
+    global INDEX_NAME, model, use_raw
     actions = []
     for doc in tqdm(documents, total=len(documents)):
         # if we use embedding, add embedding field
@@ -81,12 +119,13 @@ def _insert_documents(es: Elasticsearch, documents: List[dict]) -> dict:
             doc['embedding'] = model.encode(doc['explanation'])
         actions.append({
             "_index": INDEX_NAME,
-            "_source": doc
+            "_source": doc,
+            "pipeline": PIPELINE_ID 
         })
     return helpers.bulk(es, actions)
 
 if __name__ == "__main__":
-    with open("./data/apod.json") as f:
+    with open("./data/apod_raw.json") as f:
         documents = json.load(f)
     index_data(documents=documents)
      
