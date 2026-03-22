@@ -37,51 +37,6 @@ def get_total_hits(response):
 def calculate_max_pages(total_hits, limit):
     return math.ceil(total_hits / limit)
 
-
-# @app.get("/api/v1/regular_search")
-# async def search(search_query: str, skip: int = 0, limit: int = 10, year: str | None = None) -> dict:
-#     global INDEX_NAME_N_GRAM, INDEX_NAME_DEFAULT
-#     # compound query so we can add filters
-#     query = {
-#         "bool" : {
-#             "must": [
-#                 {
-#                     "multi_match": {
-#                         "query": search_query,
-#                         "fields": ["title", "explanation"]
-#                     }
-#                 }
-#             ]
-#         }
-#     }
-#     if year:
-#         query["bool"]["filter"] = {
-#             "range": {
-#                 "date": {
-#                     "gte": f"{year}-01-01",
-#                     "lte": f"{year}-12-31" ,
-#                     "format": "yyyy-MM-dd"
-#                 }
-#             }
-#         }
-
-#     response = es.search(
-#         index=  ,   # use the apod n-gram index or apod_raw index, or default/raw default
-#         body={
-#             "query": query,
-#             "from": skip,
-#             "size": limit
-
-#         },
-#         filter_path=["hits.hits._source", "hits.hits._score", "hits.total"]
-#     )
-#     total_hits = get_total_hits(response)
-#     max_pages = calculate_max_pages(total_hits, limit)
-
-#     hits = response["hits"].get("hits", [])  # in case nothing matches the search, so we dont get errors
-#     return {"hits": hits, "total": total_hits, "max_pages": max_pages}
-
-
 # ------------------------
 # SEARCH ENDPOINT
 # ------------------------
