@@ -20,9 +20,9 @@ app.add_middleware(  # allows frontend to access backend
 )
 
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(f"Using device: {device}")
-model = SentenceTransformer('all-MiniLM-L6-v2').to(device)
+# device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# print(f"Using device: {device}")
+# model = SentenceTransformer('all-MiniLM-L6-v2').to(device)
 
 # ------------------------
 # GLOBAL STATE
