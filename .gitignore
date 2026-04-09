@@ -1,0 +1,11 @@
+# Docker Images
+nominatim_image.tar
+
+# OSM Data Files (very large)
+osm_data/
+*.pbf
+
+# Python/Notebook junk
+__pycache__/
+.ipynb_checkpoints/
+.env
