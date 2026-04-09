@@ -1,0 +1,134 @@
+{
+    "https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf": {
+        "bytes": 120839024,
+        "pbf_size": "115.2 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:01 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/jordan-latest.osm.pbf": {
+        "bytes": 30876788,
+        "pbf_size": "29.4 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:47 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/lebanon-latest.osm.pbf": {
+        "bytes": 51367640,
+        "pbf_size": "49.0 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:01:58 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/syria-latest.osm.pbf": {
+        "bytes": 77565952,
+        "pbf_size": "74.0 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:03:33 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/iraq-latest.osm.pbf": {
+        "bytes": 88244640,
+        "pbf_size": "84.2 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:33 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/gcc-states-latest.osm.pbf": {
+        "bytes": 248556576,
+        "pbf_size": "237.0 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:08 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/yemen-latest.osm.pbf": {
+        "bytes": 42656733,
+        "pbf_size": "40.7 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:58 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/iran-latest.osm.pbf": {
+        "bytes": 226503568,
+        "pbf_size": "216.0 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:54 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/europe/turkey-latest.osm.pbf": {
+        "bytes": 628862390,
+        "pbf_size": "599.7 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:10:00 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf": {
+        "bytes": 111001831,
+        "pbf_size": "105.9 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:46 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/pakistan-latest.osm.pbf": {
+        "bytes": 151131934,
+        "pbf_size": "144.1 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:53 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/africa/egypt-latest.osm.pbf": {
+        "bytes": 175324655,
+        "pbf_size": "167.2 MB",
+        "last_modified": "Wed, 08 Apr 2026 22:56:06 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/africa/libya-latest.osm.pbf": {
+        "bytes": 75883955,
+        "pbf_size": "72.4 MB",
+        "last_modified": "Wed, 08 Apr 2026 22:57:59 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/africa/sudan-latest.osm.pbf": {
+        "bytes": 142545813,
+        "pbf_size": "135.9 MB",
+        "last_modified": "Wed, 08 Apr 2026 22:57:26 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/europe/georgia-latest.osm.pbf": {
+        "bytes": 98154649,
+        "pbf_size": "93.6 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:15:15 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/armenia-latest.osm.pbf": {
+        "bytes": 51852294,
+        "pbf_size": "49.5 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:35 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/azerbaijan-latest.osm.pbf": {
+        "bytes": 44801151,
+        "pbf_size": "42.7 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:02:11 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/kazakhstan-latest.osm.pbf": {
+        "bytes": 214435187,
+        "pbf_size": "204.5 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:16 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/uzbekistan-latest.osm.pbf": {
+        "bytes": 103439408,
+        "pbf_size": "98.6 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:55 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/turkmenistan-latest.osm.pbf": {
+        "bytes": 24084015,
+        "pbf_size": "23.0 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:18 GMT",
+        "last_downloaded_at": "Wed, 08 Apr 2026 23:04:18 GMT"
+    },
+    "https://download.geofabrik.de/asia/kyrgyzstan-latest.osm.pbf": {
+        "bytes": 49602082,
+        "pbf_size": "47.3 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:49 GMT",
+        "last_downloaded_at": null
+    },
+    "https://download.geofabrik.de/asia/tajikistan-latest.osm.pbf": {
+        "bytes": 47645416,
+        "pbf_size": "45.4 MB",
+        "last_modified": "Wed, 08 Apr 2026 23:04:46 GMT",
+        "last_downloaded_at": null
+    }
+}
